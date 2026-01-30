@@ -9,9 +9,6 @@ const router = Router();
  * @swagger
  * components:
  *   schemas:
- *     # ==========================
- *     # Enums
- *     # ==========================
  *     WorkoutStatus:
  *       type: string
  *       enum:
