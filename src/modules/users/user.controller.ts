@@ -45,8 +45,7 @@ export class UserController {
     next: NextFunction
   ) {
     try {
-      // @ts-ignore
-      const userId = req.user?.sub;
+      const userId = (req as any).user?.id;
       const user = await UserService.profile(userId);
       
       res.json({

@@ -9,7 +9,10 @@ export async function workoutOwnershipMiddleware(
   res: Response,
   next: NextFunction,
 ) {
-  const userId = req.user?.id;
+  console.log(req.method);
+  console.log(req.url);
+  console.log(req);
+  const userId = (req as any).user?.id;
   const { workoutId } = req.params;
 
   if (!userId) {
@@ -27,7 +30,6 @@ export async function workoutOwnershipMiddleware(
     return next(new CustomError("Workout not found", 404));
   }
 
-  // Optional: attach workout for reuse
   (req as any).workout = workout;
 
   next();

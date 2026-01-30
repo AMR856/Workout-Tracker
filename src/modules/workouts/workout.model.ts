@@ -15,6 +15,7 @@ export const WorkoutModel = {
       weight?: number;
     }[];
   }) {
+    console.log(data);
     return prisma.workout.create({
       data: {
         userId: data.userId,
@@ -146,11 +147,33 @@ export const WorkoutModel = {
       },
     });
   },
-  
+
   updateWorkoutStatus(workoutId: string, status: WorkoutStatus) {
     return prisma.workout.update({
       where: { id: workoutId },
       data: { status },
+    });
+  },
+
+  getWorkoutReport(
+    userId: string,
+    filters: { from?: Date | undefined; to?: Date | undefined; status?: WorkoutStatus| undefined },
+  ) {
+    return prisma.workout.findMany({
+      where: {
+        userId,
+        ...(filters.status && { status: filters.status }),
+        scheduledAt: {
+          ...(filters.from && { gte: filters.from }),
+          ...(filters.to && { lte: filters.to }),
+        },
+      },
+      include: {
+        exercises: {
+          include: { exercise: true },
+        },
+      },
+      orderBy: { scheduledAt: "asc" },
     });
   },
 };

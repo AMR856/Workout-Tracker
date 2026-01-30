@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { UserModel } from "./user.model";
 import CustomError from "../../types/customError";
 import { LoginInput, RegisterInput } from "./user.validation";
+import { email } from "zod";
 
 export class UserService {
   static async register(data: RegisterInput) {
@@ -34,14 +35,17 @@ export class UserService {
     if (!valid) {
       throw new CustomError("Invalid credentials", 401);
     }
-    console.log(user);
     const token = jwt.sign(
-      { sub: user.id, email: user.email },
+      { id: user.id, email: user.email },
       process.env.JWT_SECRET!,
       { expiresIn: "7d" }
     );
 
-    return { token };
+    return {
+      email: user.email,
+      username: user.username,
+      token
+     };
   }
 
   static async profile(userId: string | undefined) {
@@ -55,3 +59,4 @@ export class UserService {
     return user;
   }
 }
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIyYWNjNjM2LWIyNzEtNGEzYS04MzFhLWZiNjk5YjZkNGE3YiIsImVtYWlsIjoiYW1lci5saXZlNDc3QGdtYWlsLmNvbSIsImlhdCI6MTc2OTgxMDE2MCwiZXhwIjoxNzcwNDE0OTYwfQ.AqY3x7XQbF8UTSgmNa1BiE4tFuraubKUYXg32oepm9k

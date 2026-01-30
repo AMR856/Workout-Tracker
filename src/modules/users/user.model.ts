@@ -8,7 +8,6 @@ export const UserModel = {
       where: { email },
     });
   },
-// f055342b-2f6f-457f-acb6-28c4639de87f
   findById(id: string) {
     return prisma.user.findUnique({
       where: { id },

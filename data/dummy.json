@@ -1,0 +1,34 @@
+{
+  "title": "Workout 1",
+  "notes": "A random note here",
+  "exercises": [
+    {
+      "exerciseId": "522360aa-6db0-4ea2-9bc3-248ff90d6b40",
+      "sets": 5,
+      "reps": 10,
+      "weight": 70
+    },
+    {
+      "exerciseId": "52cfe6a1-1602-4f1a-aec5-6d6a29f80da8",
+      "sets": 6,
+      "reps": 20
+    },
+    {
+      "exerciseId": "ae2bd07c-9acf-4a74-8c9a-23c5daa3fed4",
+      "sets": 2,
+      "reps": 10,
+      "weight": 30
+    },
+    {
+      "exerciseId": "d081967b-37ef-4b76-b595-8ff5246ec415",
+      "sets": 5,
+      "reps": 3,
+      "weight": 40
+    },
+    {
+      "exerciseId": "91dc8299-1f0d-4ae5-be46-36dc0aa21c5e",
+      "sets": 2,
+      "reps": 6
+    }
+  ]
+}

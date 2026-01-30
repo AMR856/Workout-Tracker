@@ -1,12 +1,13 @@
 import { WorkoutModel } from "./workout.model";
 import CustomError from "../../types/customError";
 import { CreateWorkoutInput, UpdateWorkoutInput } from "./workout.validation";
+import { WorkoutStatus } from "@prisma/client";
 
 export class WorkoutService {
-  static async create(data: CreateWorkoutInput) {
+  static async create(data: CreateWorkoutInput, userId: string) {
     try {
       return await WorkoutModel.createWorkout({
-        userId: data.userId,
+        userId: userId,
         title: data.title,
         notes: data.notes,
         scheduledAt: data.scheduledAt,
@@ -72,4 +73,40 @@ export class WorkoutService {
     if (!workout) throw new CustomError("Workout not found", 404);
     return workout;
   }
+
+  static async generateReport(
+    userId: string,
+    filters: {
+      from?: Date | undefined;
+      to?: Date | undefined;
+      status?: WorkoutStatus | undefined;
+    },
+  ) {
+    const workouts = await WorkoutModel.getWorkoutReport(
+      userId,
+      filters,
+    );
+
+    const totalWorkouts = workouts.length;
+    const totalVolume = workouts.reduce((sum, w) => {
+      return (
+        sum +
+        w.exercises.reduce(
+          (exSum, e) => exSum + e.sets * e.reps * (e.weight ?? 0),
+          0,
+        )
+      );
+    }, 0);
+
+    return {
+      totalWorkouts,
+      totalVolume,
+      workouts,
+    };
+  }
 }
+
+// {
+//     "email": "amrsouriya477@gmail.com",
+//     "password":"linguaugilguil"
+// }
