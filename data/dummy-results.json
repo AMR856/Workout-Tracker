@@ -1,49 +1,66 @@
 {
+  "status": "success",
   "data": {
-    "createdAt": "2026-01-30T22:06:03.878Z",
+    "id": "9ed581ba-9b46-475c-ad71-9186d45c48c3",
+    "userId": "22acc636-b271-4a3a-831a-fb699b6d4a7b",
+    "title": "Full Body Workout",
+    "notes": "Moderate intensity, full body coverage",
+    "scheduledAt": null,
+    "status": "PENDING",
+    "createdAt": "2026-02-04T21:50:03.932Z",
+    "updatedAt": "2026-02-04T21:50:03.932Z",
     "exercises": [
       {
+        "id": "704ca96c-ef65-4c25-9b2c-d2a1965676b4",
+        "workoutId": "9ed581ba-9b46-475c-ad71-9186d45c48c3",
+        "exerciseId": "522360aa-6db0-4ea2-9bc3-248ff90d6b40",
+        "sets": 3,
+        "reps": 15,
+        "weight": null,
         "exercise": {
+          "id": "522360aa-6db0-4ea2-9bc3-248ff90d6b40",
+          "name": "Exercise 1",
+          "description": "Auto-generated exercise number 1",
           "category": "CARDIO",
+          "muscleGroup": "CHEST",
           "createdAt": "2026-01-30T14:01:21.421Z",
-          "description": "Auto-generated exercise number 7",
-          "id": "ebdd811e-4936-48b6-a214-8474c6e54e07",
-          "muscleGroup": "FULL_BODY",
-          "name": "Exercise 7",
           "updatedAt": "2026-01-30T14:01:21.421Z"
-        },
-        "exerciseId": "ebdd811e-4936-48b6-a214-8474c6e54e07",
-        "id": "49de487d-24c3-4854-82be-2446e95a506d",
-        "reps": 10,
-        "sets": 4,
-        "weight": 70,
-        "workoutId": "5af75fcf-bb42-4d01-9445-5bd711da4192"
+        }
       },
       {
-        "exercise": {
-          "category": "FLEXIBILITY",
-          "createdAt": "2026-01-30T14:01:21.421Z",
-          "description": "Auto-generated exercise number 6",
-          "id": "ec346556-7098-49d0-9a3f-ca6d5481496e",
-          "muscleGroup": "CORE",
-          "name": "Exercise 6",
-          "updatedAt": "2026-01-30T14:01:21.421Z"
-        },
-        "exerciseId": "ec346556-7098-49d0-9a3f-ca6d5481496e",
-        "id": "29472538-793f-4e0f-b829-b73efadfe57d",
-        "reps": 12,
+        "id": "edbe0713-8ab2-4e68-8036-a500bf559453",
+        "workoutId": "9ed581ba-9b46-475c-ad71-9186d45c48c3",
+        "exerciseId": "52cfe6a1-1602-4f1a-aec5-6d6a29f80da8",
         "sets": 3,
+        "reps": 12,
         "weight": null,
-        "workoutId": "5af75fcf-bb42-4d01-9445-5bd711da4192"
+        "exercise": {
+          "id": "52cfe6a1-1602-4f1a-aec5-6d6a29f80da8",
+          "name": "Exercise 2",
+          "description": "Auto-generated exercise number 2",
+          "category": "STRENGTH",
+          "muscleGroup": "BACK",
+          "createdAt": "2026-01-30T14:01:21.421Z",
+          "updatedAt": "2026-01-30T14:01:21.421Z"
+        }
+      },
+      {
+        "id": "a5d18eea-126b-49a5-bd4b-2bd919fd669b",
+        "workoutId": "9ed581ba-9b46-475c-ad71-9186d45c48c3",
+        "exerciseId": "ae2bd07c-9acf-4a74-8c9a-23c5daa3fed4",
+        "sets": 3,
+        "reps": 10,
+        "weight": 60,
+        "exercise": {
+          "id": "ae2bd07c-9acf-4a74-8c9a-23c5daa3fed4",
+          "name": "Exercise 3",
+          "description": "Auto-generated exercise number 3",
+          "category": "FLEXIBILITY",
+          "muscleGroup": "LEGS",
+          "createdAt": "2026-01-30T14:01:21.421Z",
+          "updatedAt": "2026-01-30T14:01:21.421Z"
+        }
       }
-    ],
-    "id": "5af75fcf-bb42-4d01-9445-5bd711da4192",
-    "notes": "Focus on slow reps",
-    "scheduledAt": "2026-02-02T18:00:00.000Z",
-    "status": "COMPLETED",
-    "title": "Upper Body Day",
-    "updatedAt": "2026-01-30T22:11:55.270Z",
-    "userId": "22acc636-b271-4a3a-831a-fb699b6d4a7b"
-  },
-  "status": "success"
+    ]
+  }
 }

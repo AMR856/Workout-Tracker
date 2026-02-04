@@ -1,34 +1,148 @@
-{
-  "title": "Workout 1",
-  "notes": "A random note here",
-  "exercises": [
-    {
-      "exerciseId": "522360aa-6db0-4ea2-9bc3-248ff90d6b40",
-      "sets": 5,
-      "reps": 10,
-      "weight": 70
-    },
-    {
-      "exerciseId": "52cfe6a1-1602-4f1a-aec5-6d6a29f80da8",
-      "sets": 6,
-      "reps": 20
-    },
-    {
-      "exerciseId": "ae2bd07c-9acf-4a74-8c9a-23c5daa3fed4",
-      "sets": 2,
-      "reps": 10,
-      "weight": 30
-    },
-    {
-      "exerciseId": "d081967b-37ef-4b76-b595-8ff5246ec415",
-      "sets": 5,
-      "reps": 3,
-      "weight": 40
-    },
-    {
-      "exerciseId": "91dc8299-1f0d-4ae5-be46-36dc0aa21c5e",
-      "sets": 2,
-      "reps": 6
-    }
-  ]
-}
+[
+  {
+    "title": "Cardio & Core",
+    "notes": "Low rest, high reps",
+    "exercises": [
+      {
+        "exerciseId": "522360aa-6db0-4ea2-9bc3-248ff90d6b40",
+        "sets": 4,
+        "reps": 20
+      },
+      {
+        "exerciseId": "52cfe6a1-1602-4f1a-aec5-6d6a29f80da8",
+        "sets": 3,
+        "reps": 30
+      },
+      {
+        "exerciseId": "ae2bd07c-9acf-4a74-8c9a-23c5daa3fed4",
+        "sets": 3,
+        "reps": 60
+      }
+    ]
+  },
+  {
+    "title": "Full Body Workout",
+    "notes": "Moderate intensity, full body coverage",
+    "exercises": [
+      {
+        "exerciseId": "ae2bd07c-9acf-4a74-8c9a-23c5daa3fed4",
+        "sets": 3,
+        "reps": 10,
+        "weight": 60
+      },
+      {
+        "exerciseId": "52cfe6a1-1602-4f1a-aec5-6d6a29f80da8",
+        "sets": 3,
+        "reps": 12
+      },
+      {
+        "exerciseId": "522360aa-6db0-4ea2-9bc3-248ff90d6b40",
+        "sets": 3,
+        "reps": 15
+      }
+    ]
+  },
+  {
+    "title": "Pull Day",
+    "notes": "Back and biceps",
+    "exercises": [
+      {
+        "exerciseId": "aa7c8f55-31b4-4c7f-b0a4-77f51eaa1111",
+        "sets": 4,
+        "reps": 6,
+        "weight": 110
+      },
+      {
+        "exerciseId": "bb9d3a18-2f11-4d6b-b68c-913bff221234",
+        "sets": 4,
+        "reps": 10,
+        "weight": 70
+      },
+      {
+        "exerciseId": "cc1a1c9d-5f5a-41e2-8b52-cc12ff982abc",
+        "sets": 3,
+        "reps": 12
+      }
+    ]
+  },
+  {
+    "title": "Leg Day",
+    "notes": "Heavy compounds first",
+    "exercises": [
+      {
+        "exerciseId": "7f90a6c1-4f91-4d2b-90ad-b7c11a2a99aa",
+        "sets": 5,
+        "reps": 5,
+        "weight": 140
+      },
+      {
+        "exerciseId": "1b7a62de-8c35-4d42-a6f9-3a1d9c2fa222",
+        "sets": 4,
+        "reps": 10,
+        "weight": 90
+      },
+      {
+        "exerciseId": "9e32f17c-32bb-4a21-91ab-8892bb8a9ddd",
+        "sets": 3,
+        "reps": 15
+      }
+    ]
+  },
+  {
+    "title": "Push Day",
+    "notes": "Chest, shoulders, and triceps focus",
+    "exercises": [
+      {
+        "exerciseId": "b1c9b3f4-1c0d-4a6e-9f52-1f1f0c4d1234",
+        "sets": 4,
+        "reps": 8,
+        "weight": 85
+      },
+      {
+        "exerciseId": "c2a7f5d1-9d34-4d19-8b65-77fa812312aa",
+        "sets": 4,
+        "reps": 10,
+        "weight": 60
+      },
+      {
+        "exerciseId": "e9b1a6e3-2e5f-4aab-9c9f-54d8cbb812ff",
+        "sets": 3,
+        "reps": 12
+      }
+    ]
+  },
+  {
+    "title": "Workout 1",
+    "notes": "A random note here",
+    "exercises": [
+      {
+        "exerciseId": "522360aa-6db0-4ea2-9bc3-248ff90d6b40",
+        "sets": 5,
+        "reps": 10,
+        "weight": 70
+      },
+      {
+        "exerciseId": "52cfe6a1-1602-4f1a-aec5-6d6a29f80da8",
+        "sets": 6,
+        "reps": 20
+      },
+      {
+        "exerciseId": "ae2bd07c-9acf-4a74-8c9a-23c5daa3fed4",
+        "sets": 2,
+        "reps": 10,
+        "weight": 30
+      },
+      {
+        "exerciseId": "d081967b-37ef-4b76-b595-8ff5246ec415",
+        "sets": 5,
+        "reps": 3,
+        "weight": 40
+      },
+      {
+        "exerciseId": "91dc8299-1f0d-4ae5-be46-36dc0aa21c5e",
+        "sets": 2,
+        "reps": 6
+      }
+    ]
+  }
+]

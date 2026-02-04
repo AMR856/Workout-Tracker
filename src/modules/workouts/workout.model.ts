@@ -15,7 +15,6 @@ export const WorkoutModel = {
       weight?: number;
     }[];
   }) {
-    console.log(data);
     return prisma.workout.create({
       data: {
         userId: data.userId,

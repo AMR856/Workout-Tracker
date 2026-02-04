@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 import { UserModel } from "./user.model";
 import CustomError from "../../types/customError";
 import { LoginInput, RegisterInput } from "./user.validation";
-import { email } from "zod";
 
 export class UserService {
   static async register(data: RegisterInput) {
@@ -47,7 +46,6 @@ export class UserService {
       token
      };
   }
-
   static async profile(userId: string | undefined) {
     if (!userId){
       throw new CustomError("User id wasn't provided", 400);

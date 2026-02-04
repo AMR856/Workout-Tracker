@@ -9,9 +9,6 @@ export async function workoutOwnershipMiddleware(
   res: Response,
   next: NextFunction,
 ) {
-  console.log(req.method);
-  console.log(req.url);
-  console.log(req);
   const userId = (req as any).user?.id;
   const { workoutId } = req.params;
 
