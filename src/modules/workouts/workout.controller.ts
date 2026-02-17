@@ -1,12 +1,17 @@
 import { Request, Response, NextFunction } from "express";
 import { WorkoutService } from "./workout.service";
-import {
-  createWorkoutSchema,
-  updateWorkoutSchema,
-  CreateWorkoutInput,
-  UpdateWorkoutInput,
-} from "./workout.validation";
+import { CreateWorkoutInput } from "./workout.validation";
+import { HttpStatusText } from "../../types/HTTPStatusText";
 import { WorkoutStatus } from "@prisma/client";
+import {
+  AddNotesRequset,
+  CreateWorkoutRequest,
+  DeleteWorkoutRequest,
+  GenerateReportRequest,
+  ListUserWorkoutsRequest,
+  ScheduleWorkoutRequest,
+  UpdateWorkoutRequest,
+} from "./workout.type";
 
 export class WorkoutController {
   static async create(
@@ -15,43 +20,54 @@ export class WorkoutController {
     next: NextFunction,
   ) {
     try {
-      const data = createWorkoutSchema.parse(req.body);
-      const userId = (req as any).user.id;
+      const userId = (req as CreateWorkoutRequest).user.id;
 
-      const workout = await WorkoutService.create(data, userId);
+      const workout = await WorkoutService.create({
+        ...req.body,
+        userId,
+      });
 
-      res.status(201).json({ status: "success", data: workout });
+      res.status(201).json({
+        status: HttpStatusText.SUCCESS,
+        data: workout,
+      });
     } catch (err) {
       next(err);
     }
   }
 
   static async update(
-    req: Request<{ workoutId: string }, {}, UpdateWorkoutInput>,
+    req: UpdateWorkoutRequest,
     res: Response,
     next: NextFunction,
   ) {
     try {
-      const workoutId = (req as any).workout.id;
-      const data = updateWorkoutSchema.parse(req.body);
+      const { workoutId } = req.params;
+      const data = req.body;
 
-      const workout = await WorkoutService.update(workoutId, data);
+      const workout = await WorkoutService.update({
+        workoutId,
+        ...data,
+      });
 
-      res.status(200).json({ status: "success", data: workout });
+      res.status(200).json({
+        status: HttpStatusText.SUCCESS,
+        data: workout,
+      });
     } catch (err) {
       next(err);
     }
   }
 
   static async delete(
-    req: Request<{ workoutId: string }>,
+    req: DeleteWorkoutRequest,
     res: Response,
     next: NextFunction,
   ) {
     try {
-      const workoutId = (req as any).workout.id;
+      const { workoutId } = req.params;
 
-      await WorkoutService.delete(workoutId);
+      await WorkoutService.delete({ workoutId });
 
       res.sendStatus(204);
     } catch (err) {
@@ -60,34 +76,34 @@ export class WorkoutController {
   }
 
   static async addNotes(
-    req: Request<{ workoutId: string }, {}, { notes: string }>,
+    req: AddNotesRequset,
     res: Response,
     next: NextFunction,
   ) {
     try {
-      const workoutId = (req as any).workout.id;
+      const { workoutId } = req.params;
       const { notes } = req.body;
 
-      const workout = await WorkoutService.addNotes(workoutId, notes);
+      const workout = await WorkoutService.addNotes({ workoutId, notes });
 
-      res.status(200).json({ status: "success", data: workout });
+      res.status(200).json({ status: HttpStatusText.SUCCESS, data: workout });
     } catch (err) {
       next(err);
     }
   }
 
   static async schedule(
-    req: Request<{ workoutId: string }, {}, { scheduledAt: string }>,
+    req: ScheduleWorkoutRequest,
     res: Response,
     next: NextFunction,
   ) {
     try {
-      const workoutId = (req as any).workout.id;
+      const { workoutId } = req.params;
       const scheduledAt = new Date(req.body.scheduledAt);
 
-      const workout = await WorkoutService.schedule(workoutId, scheduledAt);
+      const workout = await WorkoutService.schedule({ workoutId, scheduledAt });
 
-      res.status(200).json({ status: "success", data: workout });
+      res.status(200).json({ status: HttpStatusText.SUCCESS, data: workout });
     } catch (err) {
       next(err);
     }
@@ -99,15 +115,15 @@ export class WorkoutController {
     next: NextFunction,
   ) {
     try {
-      const userId = (req as any).user.id;
+      const userId = (req as ListUserWorkoutsRequest).user.id;
       const { status } = req.query;
 
-      const workouts = await WorkoutService.listUserWorkouts(
+      const workouts = await WorkoutService.listUserWorkouts({
         userId,
-        status as string | undefined,
-      );
+        status: status as WorkoutStatus | undefined,
+      });
 
-      res.status(200).json({ status: "success", data: workouts });
+      res.status(200).json({ status: HttpStatusText.SUCCESS, data: workouts });
     } catch (err) {
       next(err);
     }
@@ -119,26 +135,30 @@ export class WorkoutController {
     next: NextFunction,
   ) {
     try {
-      const workoutId = (req as any).workout.id;
+      const { workoutId } = req.params;
 
-      const workout = await WorkoutService.findById(workoutId);
+      const workout = await WorkoutService.findById({ workoutId });
 
-      res.status(200).json({ status: "success", data: workout });
+      res.status(200).json({ status: HttpStatusText.SUCCESS, data: workout });
     } catch (err) {
       next(err);
     }
   }
   static async generateReport(req: Request, res: Response, next: NextFunction) {
     try {
-      const userId = (req as any).user.id;
-      const { from, to, status } = req.query;
-      const report = await WorkoutService.generateReport(userId, {
-        from: from ? new Date(from as string) : undefined,
-        to: to ? new Date(to as string) : undefined,
-        status: status as WorkoutStatus | undefined,
+      const userId = (req as GenerateReportRequest).user.id;
+      const { from, to, status } = (req as GenerateReportRequest).query;
+
+      const report = await WorkoutService.generateReport({
+        userId: userId,
+        filters: {
+          from: from,
+          to: to,
+          status: status,
+        },
       });
 
-      res.status(200).json({ status: "success", data: report });
+      res.status(200).json({ status: HttpStatusText.SUCCESS, data: report });
     } catch (err) {
       next(err);
     }

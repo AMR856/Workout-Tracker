@@ -1,13 +1,23 @@
 import { WorkoutModel } from "./workout.model";
 import CustomError from "../../types/customError";
-import { CreateWorkoutInput, UpdateWorkoutInput } from "./workout.validation";
 import { WorkoutStatus } from "@prisma/client";
+import {
+  AddNotesServiceInput,
+  CreateWorkoutServiceInput,
+  DeleteWorkoutServiceInput,
+  FindWorkoutServiceInput,
+  GenerateReportServiceInput,
+  ListUserWorkoutsServiceInput,
+  ScheduleWorkoutServiceInput,
+  UpdateWorkoutServiceInput,
+} from "./workout.type";
+import { HttpStatusText } from "../../types/HTTPStatusText";
 
 export class WorkoutService {
-  static async create(data: CreateWorkoutInput, userId: string) {
+  static async create(data: CreateWorkoutServiceInput) {
     try {
       return await WorkoutModel.createWorkout({
-        userId: userId,
+        userId: data.userId,
         title: data.title,
         notes: data.notes,
         scheduledAt: data.scheduledAt,
@@ -19,15 +29,20 @@ export class WorkoutService {
         })),
       });
     } catch (err) {
-      throw new CustomError("Failed to create workout", 500);
+      throw new CustomError(
+        "Failed to create workout",
+        500,
+        HttpStatusText.ERROR,
+      );
     }
   }
 
-  static async update(workoutId: string, data: UpdateWorkoutInput) {
-    const workout = await WorkoutModel.findById(workoutId);
-    if (!workout) throw new CustomError("Workout not found", 404);
+  static async update(data: UpdateWorkoutServiceInput) {
+    const workout = await WorkoutModel.findById(data.workoutId);
+    if (!workout)
+      throw new CustomError("Workout not found", 404, HttpStatusText.FAIL);
 
-    return WorkoutModel.updateWorkout(workoutId, {
+    return WorkoutModel.updateWorkout(data.workoutId, {
       title: data.title,
       notes: data.notes,
       status: data.status,
@@ -43,49 +58,47 @@ export class WorkoutService {
     });
   }
 
-  static async delete(workoutId: string) {
-    const workout = await WorkoutModel.findById(workoutId);
-    if (!workout) throw new CustomError("Workout not found", 404);
+  static async delete(data: DeleteWorkoutServiceInput) {
+    const workout = await WorkoutModel.findById(data.workoutId);
+    if (!workout)
+      throw new CustomError("Workout not found", 404, HttpStatusText.FAIL);
 
-    return WorkoutModel.deleteWorkout(workoutId);
+    return WorkoutModel.deleteWorkout(data.workoutId);
   }
 
-  static async addNotes(workoutId: string, notes: string) {
-    const workout = await WorkoutModel.findById(workoutId);
-    if (!workout) throw new CustomError("Workout not found", 404);
+  static async addNotes(data: AddNotesServiceInput) {
+    const workout = await WorkoutModel.findById(data.workoutId);
+    if (!workout)
+      throw new CustomError("Workout not found", 404, HttpStatusText.FAIL);
 
-    return WorkoutModel.addNotes(workoutId, notes);
+    return WorkoutModel.addNotes(data.workoutId, data.notes);
   }
 
-  static async schedule(workoutId: string, scheduledAt: Date) {
-    const workout = await WorkoutModel.findById(workoutId);
-    if (!workout) throw new CustomError("Workout not found", 404);
+  static async schedule(data: ScheduleWorkoutServiceInput) {
+    const workout = await WorkoutModel.findById(data.workoutId);
+    if (!workout)
+      throw new CustomError("Workout not found", 404, HttpStatusText.FAIL);
 
-    return WorkoutModel.scheduleWorkout(workoutId, scheduledAt);
+    return WorkoutModel.scheduleWorkout(data.workoutId, data.scheduledAt);
   }
 
-  static async listUserWorkouts(userId: string, status?: string) {
-    return WorkoutModel.listUserWorkouts(userId, status as any);
+  static async listUserWorkouts(data: ListUserWorkoutsServiceInput) {
+    return WorkoutModel.listUserWorkouts(data.userId, data.status);
   }
 
-  static async findById(workoutId: string) {
-    const workout = await WorkoutModel.findById(workoutId);
-    if (!workout) throw new CustomError("Workout not found", 404);
+  static async findById(data: FindWorkoutServiceInput) {
+    const workout = await WorkoutModel.findById(data.workoutId);
+    if (!workout)
+      throw new CustomError("Workout not found", 404, HttpStatusText.FAIL);
     return workout;
   }
 
-  static async generateReport(
-    userId: string,
-    filters: {
-      from?: Date | undefined;
-      to?: Date | undefined;
-      status?: WorkoutStatus | undefined;
-    },
-  ) {
-    const workouts = await WorkoutModel.getWorkoutReport(
-      userId,
-      filters,
-    );
+  static async generateReport(data: GenerateReportServiceInput) {
+    const workouts = await WorkoutModel.getWorkoutReport(data.userId, {
+      to: data.filters.to ? new Date(data.filters.to) : undefined,
+      from: data.filters.from ? new Date(data.filters.from) : undefined,
+      status: data.filters.status ? data.filters.status : undefined,
+    });
 
     const totalWorkouts = workouts.length;
     const totalVolume = workouts.reduce((sum, w) => {

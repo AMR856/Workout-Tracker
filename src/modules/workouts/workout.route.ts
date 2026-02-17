@@ -2,6 +2,8 @@ import { Router } from "express";
 import { WorkoutController } from "./workout.controller";
 import { authMiddleware } from "../../middlewares/auth";
 import { workoutOwnershipMiddleware } from "../../middlewares/workoutOwnership";
+import { validate } from "../../middlewares/validate";
+import { WorkoutValidationSchema } from "./workout.validation";
 
 const router = Router();
 
@@ -214,7 +216,12 @@ const router = Router();
  *         description: Internal server error
  */
 
-router.post("/", authMiddleware, WorkoutController.create);
+router.post(
+  "/",
+  authMiddleware,
+  validate(WorkoutValidationSchema.create),
+  WorkoutController.create,
+);
 
 /**
  * @swagger
@@ -306,11 +313,12 @@ router.post("/", authMiddleware, WorkoutController.create);
  *         description: Internal server error
  */
 
-
 router.patch(
   "/:workoutId",
   authMiddleware,
   workoutOwnershipMiddleware,
+  validate(WorkoutValidationSchema.workoutId, "params"),
+  validate(WorkoutValidationSchema.update),
   WorkoutController.update,
 );
 
@@ -345,10 +353,10 @@ router.patch(
  *         description: Internal server error
  */
 
-
 router.delete(
   "/:workoutId",
   authMiddleware,
+  validate(WorkoutValidationSchema.workoutId, "params"),
   workoutOwnershipMiddleware,
   WorkoutController.delete,
 );
@@ -406,10 +414,11 @@ router.delete(
  *         description: Internal server error
  */
 
-
 router.patch(
   "/:workoutId/notes",
   authMiddleware,
+  validate(WorkoutValidationSchema.workoutId, "params"),
+  validate(WorkoutValidationSchema.addNotes, "body"),
   workoutOwnershipMiddleware,
   WorkoutController.addNotes,
 );
@@ -469,10 +478,11 @@ router.patch(
  *         description: Internal server error
  */
 
-
 router.patch(
   "/:workoutId/schedule",
   authMiddleware,
+  validate(WorkoutValidationSchema.workoutId, "params"),
+  validate(WorkoutValidationSchema.scheduleWorkout, "body"),
   workoutOwnershipMiddleware,
   WorkoutController.schedule,
 );
@@ -532,13 +542,7 @@ router.patch(
  *         description: Internal server error
  */
 
-
-
-router.get(
-  "/reports",
-  authMiddleware,
-  WorkoutController.generateReport,
-);
+router.get("/reports", authMiddleware, WorkoutController.generateReport);
 
 /**
  * @swagger
@@ -581,10 +585,10 @@ router.get(
  *         description: Internal server error
  */
 
-
 router.get(
   "/:workoutId",
   authMiddleware,
+  validate(WorkoutValidationSchema.workoutId, 'params'),
   workoutOwnershipMiddleware,
   WorkoutController.findById,
 );
