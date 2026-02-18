@@ -104,6 +104,7 @@ describe("UserService", () => {
           password: "123456",
         }),
       ).rejects.toThrow(CustomError);
+      expect(mockedBcrypt.compare).not.toHaveBeenCalled();
     });
 
     it("should throw if password invalid", async () => {
@@ -138,17 +139,19 @@ describe("UserService", () => {
     });
 
     it("should throw if no userId", async () => {
-      await expect(
-        UserService.profile({ userId: "" }),
-      ).rejects.toThrow(CustomError);
+      await expect(UserService.profile({ userId: "" })).rejects.toThrow(
+        CustomError,
+      );
+
+      expect(mockedUserModel.findById).not.toHaveBeenCalled();
     });
 
     it("should throw if user not found", async () => {
       mockedUserModel.findById.mockResolvedValue(null);
 
-      await expect(
-        UserService.profile({ userId: "1" }),
-      ).rejects.toThrow(CustomError);
+      await expect(UserService.profile({ userId: "1" })).rejects.toThrow(
+        CustomError,
+      );
     });
   });
 });

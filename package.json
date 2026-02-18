@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch",
-    "test:ci": "jest --coverage",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
     "dev": "npx nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js"
