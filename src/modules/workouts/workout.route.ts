@@ -588,7 +588,7 @@ router.get("/reports", authMiddleware, WorkoutController.generateReport);
 router.get(
   "/:workoutId",
   authMiddleware,
-  validate(WorkoutValidationSchema.workoutId, 'params'),
+  validate(WorkoutValidationSchema.workoutId, "params"),
   workoutOwnershipMiddleware,
   WorkoutController.findById,
 );

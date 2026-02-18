@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import CustomError from "../types/customError";
 import { HttpStatusText } from "../types/HTTPStatusText";
 
 export const errorHandler = (

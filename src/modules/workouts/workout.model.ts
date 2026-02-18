@@ -156,7 +156,11 @@ export const WorkoutModel = {
 
   getWorkoutReport(
     userId: string,
-    filters: { from?: Date | undefined; to?: Date | undefined; status?: WorkoutStatus| undefined },
+    filters: {
+      from?: Date | undefined;
+      to?: Date | undefined;
+      status?: WorkoutStatus | undefined;
+    },
   ) {
     return prisma.workout.findMany({
       where: {

@@ -1,19 +1,19 @@
 import { Request, Response, NextFunction } from "express";
-import { UserService } from './user.service';
-import { registerSchema, loginSchema, RegisterInput, LoginInput } from './user.validation';
+import { UserService } from "./user.service";
+import { LoginRequest, ProfileRequest, RegisterRequest } from "./user.type";
+import { HttpStatusText } from "../../types/HTTPStatusText";
 
 export class UserController {
   static async register(
-    req: Request<{}, {}, RegisterInput>,
+    req: RegisterRequest,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) {
     try {
-      const data = registerSchema.parse(req.body);
-      const user = await UserService.register(data);
+      const user = await UserService.register(req.body);
 
       res.status(201).json({
-        status: "success",
+        status: HttpStatusText.SUCCESS,
         data: user,
       });
     } catch (err) {
@@ -21,17 +21,12 @@ export class UserController {
     }
   }
 
-  static async login(
-    req: Request<{}, {}, LoginInput>,
-    res: Response,
-    next: NextFunction
-  ) {
+  static async login(req: LoginRequest, res: Response, next: NextFunction) {
     try {
-      const data = loginSchema.parse(req.body);
-      const result = await UserService.login(data);
+      const result = await UserService.login(req.body);
 
       res.json({
-        status: "success",
+        status: HttpStatusText.SUCCESS,
         data: result,
       });
     } catch (err) {
@@ -39,17 +34,13 @@ export class UserController {
     }
   }
 
-  static async profile(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
+  static async profile(req: Request, res: Response, next: NextFunction) {
     try {
-      const userId = (req as any).user?.id;
-      const user = await UserService.profile(userId);
-      
+      const userId = (req as ProfileRequest).user.id;
+      const user = await UserService.profile({ userId });
+
       res.json({
-        status: "success",
+        status: HttpStatusText.SUCCESS,
         data: user,
       });
     } catch (err) {

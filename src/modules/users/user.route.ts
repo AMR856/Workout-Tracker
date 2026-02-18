@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { UserController } from './user.controller';
+import { UserController } from "./user.controller";
 import { authMiddleware } from "../../middlewares/auth";
-
+import { validate } from "../../middlewares/validate";
+import { UserValidationSchema } from "./user.validation";
 
 const router = Router();
 
@@ -44,7 +45,6 @@ const router = Router();
  *         - password
  *
  */
-
 
 /**
  * @swagger
@@ -133,8 +133,11 @@ const router = Router();
  *         description: Validation error
  */
 
-
-router.post("/register", UserController.register);
+router.post(
+  "/register",
+  validate(UserValidationSchema.register),
+  UserController.register,
+);
 
 /**
  * @swagger
@@ -160,7 +163,11 @@ router.post("/register", UserController.register);
  *         description: Invalid credentials
  */
 
-router.post("/login", UserController.login);
+router.post(
+  "/login",
+  validate(UserValidationSchema.login),
+  UserController.login,
+);
 
 /**
  * @swagger
@@ -201,6 +208,10 @@ router.post("/login", UserController.login);
  *         description: Unauthorized
  */
 
-router.get("/profile", authMiddleware, UserController.profile);
+router.get(
+  "/profile",
+  authMiddleware,
+  UserController.profile,
+);
 
 export default router;
