@@ -9,27 +9,25 @@ import {
 } from "./user.type";
 import { HttpStatusText } from "../../types/HTTPStatusText";
 
-
 export class UserService {
   static async register(data: RegisterServiceInput) {
-    const existing = await UserModel.findByEmail(data.email);
-    if (existing) {
-      throw new CustomError("User already exists", 409, HttpStatusText.FAIL);
+    let user = await UserModel.findByEmail(data.email);
+
+    if (!user) {
+      const hashed = await bcrypt.hash(data.password, 10);
+
+      user = await UserModel.create({
+        email: data.email,
+        password: hashed,
+        username: data.username,
+      });
     }
-    const hashed = await bcrypt.hash(data.password, 10);
-
-    const user = await UserModel.create({
-      email: data.email,
-      password: hashed,
-      username: data.username,
-    });
-
     return {
       id: user.id,
       email: user.email,
+      username: user.username,
     };
   }
-
   static async login(data: LoginServiceInput) {
     const user = await UserModel.findByEmail(data.email);
     if (!user) {

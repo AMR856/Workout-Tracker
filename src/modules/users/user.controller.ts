@@ -11,7 +11,6 @@ export class UserController {
   ) {
     try {
       const user = await UserService.register(req.body);
-
       res.status(201).json({
         status: HttpStatusText.SUCCESS,
         data: user,
