@@ -12,7 +12,6 @@ export let options = {
   },
 };
 
-// Example user credentials
 const BASE_URL = "http://localhost:5000";
 const USER = {
   email: "loadtest@example.com",
@@ -20,7 +19,6 @@ const USER = {
 };
 
 export default function () {
-  // 1️⃣ Register (ignore errors if user exists)
   let registerRes = http.post(`${BASE_URL}/auth/register`, JSON.stringify(USER), {
     headers: { "Content-Type": "application/json" },
   });
@@ -28,7 +26,6 @@ export default function () {
     "register status 201 or 400": (r) => r.status === 201 || r.status === 400,
   });
 
-  // 2️⃣ Login
   let loginRes = http.post(`${BASE_URL}/auth/login`, JSON.stringify(USER), {
     headers: { "Content-Type": "application/json" },
   });
@@ -36,7 +33,6 @@ export default function () {
 
   const token = loginRes.json("data.token");
 
-  // 3️⃣ Create Workout
   const workoutPayload = {
     title: "Load Test Workout",
     notes: "Testing high load",
@@ -55,7 +51,6 @@ export default function () {
 
   const workoutId = createRes.json("data.id");
 
-  // 4️⃣ Update Workout
   const updatePayload = { title: "Updated Load Test Workout", notes: "Updated notes" };
   let updateRes = http.patch(`${BASE_URL}/workouts/${workoutId}`, JSON.stringify(updatePayload), {
     headers: {
@@ -65,7 +60,6 @@ export default function () {
   });
   check(updateRes, { "update workout status 200": (r) => r.status === 200 });
 
-  // 5️⃣ Schedule Workout
   const schedulePayload = { scheduledAt: new Date(Date.now() + 3600 * 1000).toISOString() };
   let scheduleRes = http.patch(
     `${BASE_URL}/workouts/${workoutId}/schedule`,
@@ -79,7 +73,6 @@ export default function () {
   );
   check(scheduleRes, { "schedule workout status 200": (r) => r.status === 200 });
 
-  // 6️⃣ Add notes
   const notesPayload = { notes: "Adding notes during load test" };
   let notesRes = http.patch(`${BASE_URL}/workouts/${workoutId}/notes`, JSON.stringify(notesPayload), {
     headers: {
@@ -89,23 +82,20 @@ export default function () {
   });
   check(notesRes, { "add notes status 200": (r) => r.status === 200 });
 
-  // 7️⃣ Get workout by ID
   let getRes = http.get(`${BASE_URL}/workouts/${workoutId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   check(getRes, { "get workout status 200": (r) => r.status === 200 });
 
-  // 8️⃣ List workouts
   let listRes = http.get(`${BASE_URL}/workouts`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   check(listRes, { "list workouts status 200": (r) => r.status === 200 });
 
-  // 9️⃣ Optionally delete workout (comment out if you want persistence)
   let deleteRes = http.del(`${BASE_URL}/workouts/${workoutId}`, null, {
     headers: { Authorization: `Bearer ${token}` },
   });
   check(deleteRes, { "delete workout status 204": (r) => r.status === 204 });
 
-  sleep(1); // simulate user think time
+  sleep(1); 
 }
