@@ -139,5 +139,5 @@ export default function () {
     "delete 204": (r) => r.status === 204,
   });
 
-  sleep(Math.random() * 2); // 🔥 more realistic user behavior
+  sleep(Math.random() * 2);
 }
