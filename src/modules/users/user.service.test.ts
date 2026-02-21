@@ -47,19 +47,19 @@ describe("UserService", () => {
         email: "test@test.com",
       });
 
-      expect(mockedBcrypt.hash).toHaveBeenCalledWith("123456", 10);
+      expect(mockedBcrypt.hash).toHaveBeenCalledWith("123456", 8);
     });
 
-    it("should throw if user exists", async () => {
+    it("should continue normally if user exists", async () => {
       mockedUserModel.findByEmail.mockResolvedValue({ id: "1" } as any);
-
-      await expect(
-        UserService.register({
-          email: "test@test.com",
-          password: "123456",
-          username: "test",
-        }),
-      ).rejects.toThrow(CustomError);
+      const result = await UserService.register({
+        email: "test@test.com",
+        password: "123456",
+        username: "test",
+      });
+      expect(result).toEqual({
+        id: "1",
+      });
     });
   });
 

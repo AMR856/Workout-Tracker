@@ -1,47 +1,69 @@
 # Workout Tracker API
 
-**Workout Tracker** is a backend system for tracking workouts and progress. It allows users to sign up, log in, create workout plans, schedule workouts, and generate reports on past workouts.
+**Workout Tracker** is a scalable backend system for tracking workouts, exercises, and user progress.  
+It supports authentication, workout management, scheduling, and reporting, with a focus on **performance, scalability, and reliability**.
 
-This API is built with **Node.js**, **Express**, **TypeScript**, **Prisma**, and **PostgreSQL**, and uses **JWT** for secure authentication.
-
----
-
-
-## Features
-
-* **User Authentication**: Sign up, log in, view profile
-* **JWT-based Authentication** for securing routes
-* **Workout Management**: CRUD operations for workouts
-* **Exercise Management**: Include multiple exercises per workout
-* **Workout Scheduling**: Schedule workouts for specific dates/times
-* **Reports**: Generate reports on past workouts and progress
-* **Validation**: Input validation using **Zod**
-* **Swagger/OpenAPI Documentation**
+Built using **Node.js**, **Express**, **TypeScript**, **Prisma**, and **PostgreSQL**, with **JWT-based authentication**.
 
 ---
 
-## Tech Stack
+## ✨ Features
 
-* **Node.js** & **Express.js**
-* **TypeScript**
-* **Prisma ORM**
-* **PostgreSQL**
-* **JWT** authentication
-* **Zod** validation
-* **Swagger** for API docs
+- 🔐 **User Authentication**
+  - Register, login, and profile endpoints
+  - Secure JWT-based authorization
+
+- 🏋️ **Workout Management**
+  - Create, update, delete workouts
+  - Attach multiple exercises to each workout
+
+- 📅 **Workout Scheduling**
+  - Schedule workouts for specific dates
+
+- 📝 **Workout Notes**
+  - Add and update notes per workout
+
+- 📊 **Reports**
+  - Generate reports for workout history and progress
+
+- ✅ **Validation**
+  - Request validation using **Zod**
+
+- 📄 **API Documentation**
+  - Swagger / OpenAPI support
+
+- ⚡ **Performance & Scalability**
+  - Load tested with **k6**
+  - Monitored using **Prometheus & Grafana**
+  - Scaled using **PM2 cluster mode**
 
 ---
 
-## Project Structure
+## 🧱 Tech Stack
+
+- **Backend:** Node.js, Express.js, TypeScript
+- **Database:** PostgreSQL
+- **ORM:** Prisma
+- **Authentication:** JWT
+- **Validation:** Zod
+- **Testing:** Jest, Supertest
+- **Docs:** Swagger (OpenAPI)
+- **Performance:** k6, Prometheus, Grafana
+- **Process Manager:** PM2
+
+---
+
+## 📂 Project Structure
 
 ```
+
 .
 ├── config
-│   └── swagger.ts             # Swagger/OpenAPI configuration
-├── index.ts                   # Entry point
+│   └── swagger.ts
+├── index.ts
 ├── middlewares
-│   ├── auth.ts                # JWT authentication middleware
-│   └── workoutOwnership.ts    # Workout ownership verification
+│   ├── auth.ts
+│   └── workoutOwnership.ts
 ├── modules
 │   ├── exercises
 │   │   └── exercise.model.ts
@@ -58,25 +80,28 @@ This API is built with **Node.js**, **Express**, **TypeScript**, **Prisma**, and
 │       ├── workout.service.ts
 │       └── workout.validation.ts
 ├── seeders
-│   └── exercise.seeder.ts      # Seed initial exercises
+│   └── exercise.seeder.ts
 ├── types
 │   ├── customError.ts
 │   └── express.d.ts
 └── utils
-    ├── bcrypt.ts
-    ├── errorHandler.ts
-    └── jwt.ts
-```
+├── bcrypt.ts
+├── errorHandler.ts
+└── jwt.ts
+
+````
 
 ---
 
-## Getting Started
+## ⚙️ Getting Started
 
 ### Prerequisites
 
-* Node.js >= 18
-* PostgreSQL
-* npm or yarn
+- Node.js >= 18
+- PostgreSQL
+- npm or yarn
+
+---
 
 ### Installation
 
@@ -84,13 +109,13 @@ This API is built with **Node.js**, **Express**, **TypeScript**, **Prisma**, and
 git clone <repo_url>
 cd workout-tracker
 npm install
-```
+````
 
 ---
 
-## Environment Variables
+## 🔐 Environment Variables
 
-Create a `.env` file in the project root:
+Create a `.env` file:
 
 ```env
 DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE
@@ -100,29 +125,29 @@ PORT=5000
 
 ---
 
-## Database Setup
+## 🗄️ Database Setup
 
-### Prisma Migrations
+### Run migrations
 
 ```bash
 npx prisma migrate dev --name init
 ```
 
-### Generate Prisma Client
+### Generate client
 
 ```bash
 npx prisma generate
 ```
 
-### Seed Initial Data
+### Seed data
 
 ```bash
-ts-node seeders/exercise.seeder.ts
+npx ts-node seeders/exercise.seeder.ts
 ```
 
 ---
 
-## Running the Project
+## ▶️ Running the Project
 
 ### Development
 
@@ -137,54 +162,120 @@ npm run build
 npm start
 ```
 
-Server runs at: `http://localhost:5000`
+Server runs at:
+
+```
+http://localhost:5000
+```
 
 ---
 
-## API Documentation
+## 📄 API Documentation
 
-Swagger UI is available at:
+Swagger UI:
 
 ```
 http://localhost:5000/api-docs
 ```
 
-Supports **Bearer JWT authentication** for protected endpoints.
+Supports **Bearer JWT authentication**.
 
 ---
 
-## Authentication
+## 🔑 Authentication
 
-* **Register**: `POST /auth/register`
-* **Login**: `POST /auth/login`
-* **Profile**: `GET /auth/profile` (protected)
-
----
-
-## Workout Endpoints
-
-* **Create Workout**: `POST /workouts`
-* **Update Workout**: `PATCH /workouts/:workoutId`
-* **Delete Workout**: `DELETE /workouts/:workoutId`
-* **Add Notes**: `PATCH /workouts/:workoutId/notes`
-* **Schedule Workout**: `PATCH /workouts/:workoutId/schedule`
-* **List Workouts**: `GET /workouts`
-* **Get Workout by ID**: `GET /workouts/:workoutId`
-* **Generate Reports**: `GET /workouts/reports`
-
-*All workout routes are protected using JWT and require workout ownership verification.*
+| Endpoint         | Method | Description   |
+| ---------------- | ------ | ------------- |
+| `/auth/register` | POST   | Register user |
+| `/auth/login`    | POST   | Login         |
+| `/auth/profile`  | GET    | Get profile   |
 
 ---
 
-## Exercises
+## 🏋️ Workouts
 
-* **Seeded Exercise Data**: Each exercise includes `name`, `description`, `category` (CARDIO, STRENGTH, FLEXIBILITY), and `muscleGroup` (CHEST, BACK, LEGS, SHOULDERS, ARMS, CORE, FULL_BODY)
+| Endpoint                 | Method | Description    |
+| ------------------------ | ------ | -------------- |
+| `/workouts`              | POST   | Create workout |
+| `/workouts`              | GET    | List workouts  |
+| `/workouts/:id`          | GET    | Get workout    |
+| `/workouts/:id`          | PATCH  | Update workout |
+| `/workouts/:id`          | DELETE | Delete workout |
+| `/workouts/:id/notes`    | PATCH  | Add notes      |
+| `/workouts/:id/schedule` | PATCH  | Schedule       |
+| `/workouts/reports`      | GET    | Reports        |
+
+> All routes require JWT authentication and ownership validation.
 
 ---
 
-## Validation
+## 🧪 Testing
 
-* Input validation is handled using **Zod**
-* Ensures correct types, UUIDs, number ranges, and required fields
+Run tests:
 
-Solution for Workout Tracker Project https://roadmap.sh/projects/fitness-workout-tracker
+```bash
+npm test
+```
+
+* Unit & integration tests using **Jest** and **Supertest**
+* Achieved **81% test coverage**
+
+---
+
+## ⚡ Performance & Load Testing
+
+Load testing was performed using **k6**:
+
+* Simulated up to **500 concurrent users**
+* Achieved ~**500 requests/sec**
+* Error rate < **0.05%**
+* p95 latency: **~1.3–1.45s under peak load**
+
+Example:
+
+```bash
+k6 run loadtests/userLoadtest.js
+```
+
+---
+
+## 📊 Monitoring
+
+* **Prometheus** for metrics collection
+* **Grafana** for visualization dashboards
+
+Metrics exposed at:
+
+```
+/metrics
+```
+
+---
+
+## 🚀 Scaling
+
+Application scaled using **PM2 cluster mode**:
+
+```bash
+pm2 start dist/app.js -i max
+```
+
+* Utilizes all CPU cores
+* Improves throughput and concurrency handling
+
+---
+
+## 📌 Exercises
+
+Seeded exercises include:
+
+* Categories: `CARDIO`, `STRENGTH`, `FLEXIBILITY`
+* Muscle groups: `CHEST`, `BACK`, `LEGS`, `SHOULDERS`, `ARMS`, `CORE`, `FULL_BODY`
+
+---
+
+## 🔗 Project Reference
+
+Solution inspired by:
+
+[https://roadmap.sh/projects/fitness-workout-tracker](https://roadmap.sh/projects/fitness-workout-tracker)

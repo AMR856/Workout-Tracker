@@ -15,6 +15,8 @@ model User {
   workouts  Workout[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+
+  @@index([email])
 }
 
 model Exercise {

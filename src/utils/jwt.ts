@@ -16,5 +16,3 @@ export function signToken(user: { id: number; email: string }) {
 export function verifyToken(token: string) {
   return jwt.verify(token, JWT_SECRET);
 }
-
-// Generate Reports: Generate reports on past workouts and progress.

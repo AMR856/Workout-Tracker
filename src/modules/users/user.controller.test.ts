@@ -3,7 +3,6 @@ import express from "express";
 import { afterEach, describe, expect, it, jest } from "@jest/globals";
 import { UserController } from "./user.controller";
 import { UserService } from "./user.service";
-
 jest.mock("./user.service");
 
 const mockedUserService = UserService as jest.Mocked<typeof UserService>;
@@ -25,6 +24,7 @@ describe("UserController", () => {
 
   describe("POST /register", () => {
     it("should register user", async () => {
+
       mockedUserService.register.mockResolvedValue({
         id: "1",
         email: "test@test.com",

@@ -14,7 +14,7 @@ export class UserService {
     let user = await UserModel.findByEmail(data.email);
 
     if (!user) {
-      const hashed = await bcrypt.hash(data.password, 10);
+      const hashed = await bcrypt.hash(data.password, 8);
 
       user = await UserModel.create({
         email: data.email,

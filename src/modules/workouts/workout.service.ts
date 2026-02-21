@@ -1,6 +1,5 @@
 import { WorkoutModel } from "./workout.model";
 import CustomError from "../../types/customError";
-import { WorkoutStatus } from "@prisma/client";
 import {
   AddNotesServiceInput,
   CreateWorkoutServiceInput,
