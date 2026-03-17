@@ -8,6 +8,7 @@ import { errorHandler } from './utils/errorHandler';
 import { seedExercises } from "./seeders/exercise.seeder";
 import userRouter  from './modules/users/user.route';
 import workoutRouter from './modules/workouts/workout.route';
+import exerciseRouter from './modules/exercises/exercise.route';
 import { setupSwagger } from "./config/swagger";
 import { countRequests } from "./middlewares/countRequests";
 
@@ -19,6 +20,8 @@ app.use(countRequests);
 app.use(bodyParser.json());
 app.use("/auth", userRouter);
 app.use('/workouts', workoutRouter);
+app.use('/exercises', exerciseRouter);
+
 // npx nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts
 setupSwagger(app);
 async function bootstrap() {
