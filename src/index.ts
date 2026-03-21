@@ -15,12 +15,12 @@ import { countRequests } from "./middlewares/countRequests";
 const port = process.env.PORT || 5000;
 const app = express();
 // 957d5d82-999f-47fa-a9ee-5023bcc4b1b3
-app.use(errorHandler);
 app.use(countRequests);
 app.use(bodyParser.json());
 app.use("/auth", userRouter);
 app.use('/workouts', workoutRouter);
 app.use('/exercises', exerciseRouter);
+app.use(errorHandler);
 
 // npx nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts
 setupSwagger(app);
