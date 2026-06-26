@@ -1,7 +1,16 @@
 import http from "k6/http";
 import { check, sleep } from "k6";
 
-const BASE_URL = "https://workout-tracker-app-617bd3c5a4b7.herokuapp.com";
+// # Local (dev)
+// k6 run -e IS_DEV=true loadtests/userLoadtest.js
+
+// # Production
+// k6 run -e IS_DEV=false loadtests/userLoadtest.js
+
+const BASE_URL =
+  __ENV.IS_DEV === "true"
+    ? "http://localhost:5000"
+    : "https://workout-tracker-app-617bd3c5a4b7.herokuapp.com";
 
 export let options = {
   stages: [
@@ -19,6 +28,7 @@ export default function () {
   const uniqueEmail = `user${Math.floor(Math.random() * 10000000)}@example.com`;
   const password = "StrongP@ss1";
 
+  console.log(`Using BASE_URL: ${BASE_URL}/auth/register`);
   const registerRes = http.post(
     `${BASE_URL}/auth/register`,
     JSON.stringify({
@@ -26,7 +36,7 @@ export default function () {
       password: password,
       username: "loaduser",
     }),
-    { headers: { "Content-Type": "application/json" } }
+    { headers: { "Content-Type": "application/json" } },
   );
 
   check(registerRes, {
@@ -40,7 +50,7 @@ export default function () {
       email: uniqueEmail,
       password: password,
     }),
-    { headers: { "Content-Type": "application/json" } }
+    { headers: { "Content-Type": "application/json" } },
   );
 
   check(loginRes, {

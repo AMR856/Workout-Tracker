@@ -15,7 +15,6 @@ export class UserService {
 
     if (!user) {
       const hashed = await bcrypt.hash(data.password, 8);
-
       user = await UserModel.create({
         email: data.email,
         password: hashed,
@@ -28,6 +27,7 @@ export class UserService {
       username: user.username,
     };
   }
+
   static async login(data: LoginServiceInput) {
     const user = await UserModel.findByEmail(data.email);
     if (!user) {

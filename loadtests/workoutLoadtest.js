@@ -1,6 +1,12 @@
 import http from "k6/http";
 import { check, sleep } from "k6";
 
+// # Local (dev)
+// k6 run -e IS_DEV=true loadtests/workoutLoadtest.js
+
+// # Production
+// k6 run -e IS_DEV=false loadtests/workoutLoadtest.js
+
 export let options = {
   stages: [
     { duration: "10s", target: 10 },
@@ -8,7 +14,7 @@ export let options = {
     { duration: "30s", target: 100 },
     { duration: "10s", target: 0 },
   ],
-  
+
   thresholds: {
     http_req_duration: ["p(95)<2000"],
     http_req_failed: ["rate<0.1"],
@@ -16,7 +22,10 @@ export let options = {
   },
 };
 
-const BASE_URL = "https://workout-tracker-app-617bd3c5a4b7.herokuapp.com";
+const BASE_URL =
+  __ENV.IS_DEV === "true"
+    ? "http://localhost:5000"
+    : "https://workout-tracker-app-617bd3c5a4b7.herokuapp.com";
 
 function generateUser() {
   const id = Math.floor(Math.random() * 1e9);
@@ -30,10 +39,14 @@ function generateUser() {
 export default function () {
   const user = generateUser();
 
-  let registerRes = http.post(`${BASE_URL}/auth/register`, JSON.stringify(user), {
-    headers: { "Content-Type": "application/json" },
-    tags: { name: "register" },
-  });
+  let registerRes = http.post(
+    `${BASE_URL}/auth/register`,
+    JSON.stringify(user),
+    {
+      headers: { "Content-Type": "application/json" },
+      tags: { name: "register" },
+    },
+  );
 
   check(registerRes, {
     "register 201 or 409": (r) => r.status === 201 || r.status === 409,
@@ -48,7 +61,9 @@ export default function () {
     "login status 200": (r) => r.status === 200,
     "token exists": (r) => {
       try {
-        return r.json("data.token") !== undefined && r.json("data.token") !== null;
+        return (
+          r.json("data.token") !== undefined && r.json("data.token") !== null
+        );
       } catch {
         return false;
       }
@@ -58,7 +73,9 @@ export default function () {
   const token = loginRes.json("data.token");
 
   if (!token) {
-    console.error(`Login failed for user ${user.email}. Response: ${loginRes.status}`);
+    console.error(
+      `Login failed for user ${user.email}. Response: ${loginRes.status}`,
+    );
     return;
   }
 
@@ -81,9 +98,24 @@ export default function () {
   });
 
   let createBatch = http.batch([
-    ["POST", `${BASE_URL}/workouts`, workoutPayload, { headers, tags: { name: "create" } }],
-    ["POST", `${BASE_URL}/workouts`, workoutPayload, { headers, tags: { name: "create" } }],
-    ["POST", `${BASE_URL}/workouts`, workoutPayload, { headers, tags: { name: "create" } }],
+    [
+      "POST",
+      `${BASE_URL}/workouts`,
+      workoutPayload,
+      { headers, tags: { name: "create" } },
+    ],
+    [
+      "POST",
+      `${BASE_URL}/workouts`,
+      workoutPayload,
+      { headers, tags: { name: "create" } },
+    ],
+    [
+      "POST",
+      `${BASE_URL}/workouts`,
+      workoutPayload,
+      { headers, tags: { name: "create" } },
+    ],
   ]);
 
   createBatch.forEach((res, idx) => {
@@ -96,7 +128,9 @@ export default function () {
   try {
     workoutId = createBatch[0].json("data.id");
   } catch (e) {
-    console.error(`Failed to extract workout ID from response: ${createBatch[0].body}`);
+    console.error(
+      `Failed to extract workout ID from response: ${createBatch[0].body}`,
+    );
     return;
   }
 
@@ -135,7 +169,12 @@ export default function () {
   });
 
   let readBatch = http.batch([
-    ["GET", `${BASE_URL}/workouts/${workoutId}`, null, { headers, tags: { name: "getById" } }],
+    [
+      "GET",
+      `${BASE_URL}/workouts/${workoutId}`,
+      null,
+      { headers, tags: { name: "getById" } },
+    ],
     ["GET", `${BASE_URL}/workouts`, null, { headers, tags: { name: "list" } }],
     ["GET", `${BASE_URL}/workouts`, null, { headers, tags: { name: "list" } }],
   ]);
