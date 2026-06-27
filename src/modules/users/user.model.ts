@@ -1,6 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-
-const prisma = new PrismaClient();
+import { prisma } from '../../config/prisma';
 
 export const UserModel = {
   findByEmail(email: string) {
@@ -23,7 +21,7 @@ export const UserModel = {
   create(data: {
     email: string;
     password: string;
-    username: string | undefined;
+    username: string | null;
   }) {
     return prisma.user.create({ data });
   },

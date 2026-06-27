@@ -35,7 +35,7 @@ export class UserController {
 
   static async profile(req: Request, res: Response, next: NextFunction) {
     try {
-      const userId = (req as ProfileRequest).user.id;
+      const userId = res.locals.user.id;
       const user = await UserService.profile({ userId });
 
       res.json({
