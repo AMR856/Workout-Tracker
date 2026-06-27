@@ -1,6 +1,6 @@
-import { PrismaClient, ExerciseCategory, MuscleGroup } from "@prisma/client";
+import { ExerciseCategory, MuscleGroup } from '@prisma/client';
+import { prisma } from '../../config/prisma';
 
-const prisma = new PrismaClient();
 
 export const ExerciseModel = {
   create(data: {

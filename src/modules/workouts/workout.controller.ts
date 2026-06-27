@@ -20,7 +20,7 @@ export class WorkoutController {
     next: NextFunction,
   ) {
     try {
-      const userId = (req as CreateWorkoutRequest).user.id;
+      const userId = res.locals.user.id;
 
       const workout = await WorkoutService.create({
         ...req.body,
@@ -115,7 +115,7 @@ export class WorkoutController {
     next: NextFunction,
   ) {
     try {
-      const userId = (req as ListUserWorkoutsRequest).user.id;
+      const userId = res.locals.user.id;
       const { status } = req.query;
 
       const workouts = await WorkoutService.listUserWorkouts({
@@ -146,7 +146,7 @@ export class WorkoutController {
   }
   static async generateReport(req: Request, res: Response, next: NextFunction) {
     try {
-      const userId = (req as GenerateReportRequest).user.id;
+      const userId = res.locals.user.id;
       const { from, to, status } = (req as GenerateReportRequest).query;
 
       const report = await WorkoutService.generateReport({

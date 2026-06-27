@@ -60,7 +60,8 @@ Built using **Node.js**, **Express**, **TypeScript**, **Prisma**, and **PostgreS
 .
 ├── config
 │   └── swagger.ts
-├── index.ts
+├── app.ts
+├── server.ts
 ├── middlewares
 │   ├── auth.ts
 │   └── workoutOwnership.ts

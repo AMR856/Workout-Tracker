@@ -1,6 +1,6 @@
-import { PrismaClient, WorkoutStatus } from "@prisma/client";
+import { WorkoutStatus } from '@prisma/client';
+import { prisma } from '../../config/prisma';
 
-const prisma = new PrismaClient();
 
 export const WorkoutModel = {
   async createWorkout(data: {
@@ -88,7 +88,7 @@ export const WorkoutModel = {
           },
         },
       });
-    });
+    }, { timeout: 10000 });
   },
 
   addNotes(workoutId: string, notes: string) {
