@@ -5,10 +5,8 @@ import { HttpStatusText } from "../../types/HTTPStatusText";
 import { WorkoutStatus } from "@prisma/client";
 import {
   AddNotesRequset,
-  CreateWorkoutRequest,
   DeleteWorkoutRequest,
   GenerateReportRequest,
-  ListUserWorkoutsRequest,
   ScheduleWorkoutRequest,
   UpdateWorkoutRequest,
 } from "./workout.type";

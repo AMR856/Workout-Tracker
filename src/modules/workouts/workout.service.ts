@@ -36,11 +36,7 @@ export class WorkoutService {
         })),
       });
     } catch (err) {
-<<<<<<< HEAD
-      console.log(err);
-=======
       console.error("Error creating workout:", err);
->>>>>>> master
       throw new CustomError(
         "Failed to create workout",
         500,
